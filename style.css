@@ -1,18 +1,24 @@
 body {
   margin: 0;
-  min-height: 100vh; /* corrigido */
+  min-height: 100vh;
+
   display: flex;
   justify-content: center;
-  align-items: center;
+
+  /* 👇 muda aqui */
+  align-items: flex-start;
+
+  padding: 40px 20px;
+
   background: linear-gradient(135deg, #ff7eb3, #ff758c, #ffb199);
 }
 
 /* container RESPONSIVO */
 .vinyl-container {
   position: relative;
-  width: 80vw;          /* responsivo */
-  max-width: 320px;     /* limite no PC */
-  aspect-ratio: 1/1;    /* mantém quadrado */
+  width: 80vw;
+  max-width: 320px;
+  aspect-ratio: 1/1;
 }
 
 /* 💿 VINIL */
@@ -149,8 +155,8 @@ body {
 
 .lyrics span {
   position: absolute;
-  color: rgba(255,255,255,0.15);
-  font-size: clamp(14px, 2vw, 20px); /* responsivo */
+  color: rgba(255,255,255,0.3); /* mais visível */
+  font-size: clamp(14px, 2vw, 20px);
   animation: float 12s linear infinite;
 }
 
@@ -164,4 +170,11 @@ body {
   20% { opacity:1; }
   80% { opacity:1; }
   100% { transform: translateX(120vw); opacity:0; }
+}
+
+/* 📱 AJUSTE EXTRA PRA CELULAR */
+@media (max-width: 768px) {
+  .vinyl-container {
+    width: 90vw;
+  }
 }
