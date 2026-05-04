@@ -1,23 +1,25 @@
 body {
   margin: 0;
+  padding: 0;
+  max-width: 100%;
+  overflow-x: hidden; /* 🔥 remove bug lateral */
+}
+
+body {
   min-height: 100vh;
 
   display: flex;
   justify-content: center;
-
-  /* 👇 muda aqui */
-  align-items: flex-start;
-
-  padding: 40px 20px;
+  align-items: center; /* centralizado de verdade */
 
   background: linear-gradient(135deg, #ff7eb3, #ff758c, #ffb199);
 }
 
-/* container RESPONSIVO */
+/* 🎯 container menor e equilibrado */
 .vinyl-container {
   position: relative;
-  width: 80vw;
-  max-width: 320px;
+  width: 70vw;          /* menor no celular */
+  max-width: 260px;     /* menor no PC */
   aspect-ratio: 1/1;
 }
 
@@ -45,8 +47,7 @@ body {
 
   box-shadow:
     inset 0 0 50px rgba(0,0,0,0.9),
-    inset 0 0 15px rgba(255,255,255,0.05),
-    0 10px 40px rgba(0,0,0,0.8);
+    0 10px 30px rgba(0,0,0,0.6);
 
   animation: spin 6s linear infinite;
 }
@@ -84,8 +85,8 @@ body {
   left: 50%;
   transform: translate(-50%, -50%);
 
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
   background: #111;
   border-radius: 50%;
 }
@@ -97,8 +98,8 @@ body {
   left: 50%;
   transform: translate(-50%, -50%);
 
-  width: 28%;
-  height: 28%;
+  width: 30%;
+  height: 30%;
 
   border-radius: 50%;
   background: radial-gradient(circle, #ff4d6d, #c9184a);
@@ -108,8 +109,7 @@ body {
   align-items: center;
 
   color: white;
-  font-size: 0.7rem;
-  text-align: center;
+  font-size: 0.6rem;
 }
 
 /* capa */
@@ -130,9 +130,9 @@ body {
   object-fit: cover;
 }
 
-/* abertura RESPONSIVA */
+/* abertura */
 .vinyl-container.open .cover {
-  transform: translateX(-60%) rotate(-2deg);
+  transform: translateX(-55%) rotate(-2deg);
 }
 
 /* animações */
@@ -146,35 +146,30 @@ body {
   to { transform: rotate(360deg); }
 }
 
-/* 🎵 lyrics */
+/* 🎵 lyrics (CORRIGIDO) */
 .lyrics {
   position: fixed;
   inset: 0;
   pointer-events: none;
+  overflow: hidden; /* 🔥 evita bug lateral */
 }
 
 .lyrics span {
   position: absolute;
-  color: rgba(255,255,255,0.3); /* mais visível */
-  font-size: clamp(14px, 2vw, 20px);
+  color: rgba(255,255,255,0.25);
+  font-size: clamp(14px, 2vw, 18px);
   animation: float 12s linear infinite;
 }
 
-.lyrics span:nth-child(1){ top:20%; left:-40%; }
-.lyrics span:nth-child(2){ top:50%; left:-60%; animation-delay:3s; }
-.lyrics span:nth-child(3){ top:75%; left:-50%; animation-delay:6s; }
-.lyrics span:nth-child(4){ top:35%; left:-70%; animation-delay:9s; }
+/* posições mais seguras */
+.lyrics span:nth-child(1){ top:20%; left:-20%; }
+.lyrics span:nth-child(2){ top:50%; left:-30%; animation-delay:3s; }
+.lyrics span:nth-child(3){ top:75%; left:-25%; animation-delay:6s; }
+.lyrics span:nth-child(4){ top:35%; left:-35%; animation-delay:9s; }
 
 @keyframes float {
   0% { transform: translateX(0); opacity:0; }
   20% { opacity:1; }
   80% { opacity:1; }
-  100% { transform: translateX(120vw); opacity:0; }
-}
-
-/* 📱 AJUSTE EXTRA PRA CELULAR */
-@media (max-width: 768px) {
-  .vinyl-container {
-    width: 90vw;
-  }
+  100% { transform: translateX(100vw); opacity:0; }
 }
