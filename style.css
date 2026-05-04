@@ -1,0 +1,182 @@
+body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #ff7eb3, #ff758c, #ffb199);
+}
+
+/* container */
+.vinyl-container {
+  position: relative;
+  width: 320px;
+  height: 320px;
+}
+
+/* 💿 VINIL */
+.vinyl {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  position: absolute;
+
+  background:
+    radial-gradient(circle at center, #111 0%, #000 60%, #050505 75%),
+
+    repeating-radial-gradient(
+      circle at center,
+      rgba(255,255,255,0.04) 0px,
+      rgba(255,255,255,0.04) 0.6px,
+      transparent 0.6px,
+      transparent 2px
+    ),
+
+    radial-gradient(circle at center,
+      transparent 55px,
+      rgba(255,255,255,0.08) 57px,
+      transparent 60px
+    );
+
+  box-shadow:
+    inset 0 0 50px rgba(0,0,0,0.9),
+    inset 0 0 15px rgba(255,255,255,0.05),
+    0 10px 40px rgba(0,0,0,0.8);
+
+  animation: spin 6s linear infinite;
+}
+
+/* ✨ brilho + reflexo da capa */
+.vinyl::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+
+  background:
+    linear-gradient(
+      120deg,
+      transparent 40%,
+      rgba(255,255,255,0.2),
+      transparent 60%
+    ),
+    url("./capa.jpg");
+
+  background-size: cover;
+  background-position: center;
+
+  opacity: 0.1;
+  mix-blend-mode: screen;
+
+  animation: shine 4s linear infinite;
+}
+
+/* 🔘 furo do disco */
+.vinyl::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  width: 8px;
+  height: 8px;
+  background: #111;
+  border-radius: 50%;
+
+  box-shadow: 0 0 6px rgba(0,0,0,0.9);
+}
+
+/* centro */
+.label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  width: 90px;
+  height: 90px;
+
+  border-radius: 50%;
+  background: radial-gradient(circle, #ff4d6d, #c9184a);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  color: white;
+  font-size: 11px;
+  text-align: center;
+
+  box-shadow:
+    inset 0 0 10px rgba(0,0,0,0.5),
+    0 0 10px rgba(0,0,0,0.6);
+}
+
+/* capa */
+.cover {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
+
+  border-radius: 12px;
+  overflow: hidden;
+
+  z-index: 10;
+
+  transition: transform 0.6s ease;
+}
+
+.cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* abrir capa */
+.vinyl-container.open .cover {
+  transform: translateX(-180px) rotate(-2deg);
+}
+
+/* animações */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes shine {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* 🎵 lyrics */
+.lyrics {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.lyrics span {
+  position: absolute;
+  color: rgba(255,255,255,0.15);
+  font-size: 20px;
+  animation: float 12s linear infinite;
+}
+
+.lyrics span:nth-child(1){ top:20%; left:-40%; }
+.lyrics span:nth-child(2){ top:50%; left:-60%; animation-delay:3s; }
+.lyrics span:nth-child(3){ top:75%; left:-50%; animation-delay:6s; }
+.lyrics span:nth-child(4){ top:35%; left:-70%; animation-delay:9s; }
+
+@keyframes float {
+  0% { transform: translateX(0); opacity:0; }
+  20% { opacity:1; }
+  80% { opacity:1; }
+  100% { transform: translateX(120vw); opacity:0; }
+}
