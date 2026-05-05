@@ -1,29 +1,146 @@
 html, body {
   margin: 0;
   padding: 0;
-  max-width: 100%;
-  overflow-x: hidden; /* 🔥 remove bug lateral */
+  overflow-x: hidden;
 }
 
+/* 🎨 FUNDO SUAVE */
 body {
   min-height: 100vh;
-
   display: flex;
   justify-content: center;
-  align-items: center; /* centralizado de verdade */
+  align-items: center;
 
-  background: linear-gradient(135deg, #ff7eb3, #ff758c, #ffb199);
+  background: linear-gradient(
+    180deg,
+    #ff7eb3 0%,
+    #ff758c 50%,
+    #ffb199 100%
+  );
 }
 
-/* 🎯 container menor e equilibrado */
+/* grain leve (remove faixa) */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+  opacity: 0.05;
+  pointer-events: none;
+}
+
+/* CAMADAS */
+.clouds, .bees {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+}
+
+.clouds { z-index: 0; }
+.lyrics { z-index: 2; }
+.vinyl-container { z-index: 10; }
+
+/* ☁️ NUVENS */
+.cloud {
+  position: absolute;
+  width: 320px;
+  height: 110px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 100px;
+  filter: blur(10px);
+}
+
+.cloud::before,
+.cloud::after {
+  content: "";
+  position: absolute;
+  background: inherit;
+  border-radius: 50%;
+}
+
+.cloud::before {
+  width: 120px;
+  height: 120px;
+  top: -40px;
+  left: 40px;
+}
+
+.cloud::after {
+  width: 160px;
+  height: 160px;
+  top: -60px;
+  right: 40px;
+}
+
+.c1 { top: 15%; left: -30%; animation: cloudMove 60s linear infinite; }
+.c2 { top: 40%; left: -40%; animation: cloudMove 80s linear infinite; }
+.c3 { top: 65%; left: -35%; animation: cloudMove 70s linear infinite; }
+
+@keyframes cloudMove {
+  to { transform: translateX(130vw); }
+}
+
+/* 🐝 ABELHAS */
+.bee {
+  position: absolute;
+  width: 16px;
+  height: 10px;
+  background: linear-gradient(90deg, #ffcc00 50%, #222 50%);
+  border-radius: 10px;
+  animation: beeMove 12s linear infinite;
+}
+
+.bee::before,
+.bee::after {
+  content: "";
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: rgba(255,255,255,0.7);
+  border-radius: 50%;
+  top: -5px;
+  animation: flap 0.15s infinite alternate;
+}
+
+.bee:nth-child(1){ top: 30%; left: -10%; }
+.bee:nth-child(2){ top: 55%; left: -20%; animation-delay: 2s; }
+
+@keyframes beeMove {
+  to { transform: translateX(110vw); }
+}
+
+@keyframes flap {
+  to { transform: scale(1.3); }
+}
+
+/* 🎵 LYRICS PISCA */
+.lyrics span {
+  position: absolute;
+  color: rgba(255,255,255,0.4);
+  font-size: clamp(14px, 2vw, 18px);
+  opacity: 0;
+  text-shadow: 0 0 10px rgba(255,255,255,0.3);
+  animation: blink 6s infinite;
+}
+
+.lyrics span:nth-child(1){ top:20%; left:15%; }
+.lyrics span:nth-child(2){ top:50%; left:20%; animation-delay:1.5s; }
+.lyrics span:nth-child(3){ top:75%; left:25%; animation-delay:3s; }
+.lyrics span:nth-child(4){ top:35%; left:60%; animation-delay:4.5s; }
+
+@keyframes blink {
+  0%,100% { opacity: 0; }
+  40% { opacity: 1; }
+}
+
+/* 💿 VINIL ORIGINAL */
 .vinyl-container {
   position: relative;
-  width: 70vw;          /* menor no celular */
-  max-width: 260px;     /* menor no PC */
+  width: 70vw;
+  max-width: 260px;
   aspect-ratio: 1/1;
 }
 
-/* 💿 VINIL */
 .vinyl {
   width: 100%;
   height: 100%;
@@ -52,7 +169,7 @@ body {
   animation: spin 6s linear infinite;
 }
 
-/* brilho */
+/* brilho original */
 .vinyl::before {
   content: "";
   position: absolute;
@@ -69,57 +186,49 @@ body {
     url("./capa.jpg");
 
   background-size: cover;
-  background-position: center;
-
   opacity: 0.1;
   mix-blend-mode: screen;
 
   animation: shine 4s linear infinite;
 }
 
-/* furo */
+@keyframes shine {
+  to { transform: rotate(360deg); }
+}
+
 .vinyl::after {
   content: "";
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
-
   width: 6px;
   height: 6px;
   background: #111;
   border-radius: 50%;
+  transform: translate(-50%, -50%);
 }
 
-/* centro */
 .label {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-
   width: 30%;
   height: 30%;
-
   border-radius: 50%;
   background: radial-gradient(circle, #ff4d6d, #c9184a);
-
   display: flex;
   justify-content: center;
   align-items: center;
-
   color: white;
   font-size: 0.6rem;
 }
 
-/* capa */
 .cover {
   position: absolute;
   inset: 0;
-
   border-radius: 12px;
   overflow: hidden;
-
   z-index: 10;
   transition: transform 0.6s ease;
 }
@@ -130,46 +239,10 @@ body {
   object-fit: cover;
 }
 
-/* abertura */
 .vinyl-container.open .cover {
-  transform: translateX(-55%) rotate(-2deg);
+  transform: translateX(-55%);
 }
 
-/* animações */
 @keyframes spin {
-  from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
-}
-
-@keyframes shine {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-/* 🎵 lyrics (CORRIGIDO) */
-.lyrics {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  overflow: hidden; /* 🔥 evita bug lateral */
-}
-
-.lyrics span {
-  position: absolute;
-  color: rgba(255,255,255,0.25);
-  font-size: clamp(14px, 2vw, 18px);
-  animation: float 12s linear infinite;
-}
-
-/* posições mais seguras */
-.lyrics span:nth-child(1){ top:20%; left:-20%; }
-.lyrics span:nth-child(2){ top:50%; left:-30%; animation-delay:3s; }
-.lyrics span:nth-child(3){ top:75%; left:-25%; animation-delay:6s; }
-.lyrics span:nth-child(4){ top:35%; left:-35%; animation-delay:9s; }
-
-@keyframes float {
-  0% { transform: translateX(0); opacity:0; }
-  20% { opacity:1; }
-  80% { opacity:1; }
-  100% { transform: translateX(100vw); opacity:0; }
 }
